@@ -1,0 +1,55 @@
+from django.contrib import admin
+from .models import (
+    Assistant,
+    AuthGroup,
+    AuthGroupPermissions,
+    AuthPermission,
+    AuthUser,
+    AuthUserGroups,
+    AuthUserUserPermissions,
+    Breed,
+    Category,
+    DjangoAdminLog,
+    DjangoContentType,
+    DjangoMigrations,
+    DjangoSession,
+    File,
+    Knowledges,
+    Medrecord,
+    Pets,
+    Petsprofile,
+    Product,
+    Role,
+    Shop,
+    Shopproduct,
+    Species,
+    UserProfile,
+    Userassistant,
+    Userknowledges,
+    Users,
+)
+
+admin.site.register(Assistant)
+admin.site.register(AuthGroup)
+admin.site.register(AuthGroupPermissions)
+admin.site.register(AuthPermission)
+admin.site.register(AuthUser)
+admin.site.register(AuthUserGroups)
+admin.site.register(AuthUserUserPermissions)
+admin.site.register(Breed)
+admin.site.register(Category)
+admin.site.register(DjangoAdminLog)
+admin.site.register(DjangoContentType)
+admin.site.register(DjangoMigrations)
+admin.site.register(DjangoSession)
+admin.site.register(File)
+admin.site.register(Knowledges)
+admin.site.register(Medrecord)
+admin.site.register(Pets)
+admin.site.register(Petsprofile)
+admin.site.register(Product)
+admin.site.register(Role)
+admin.site.register(Shop)
+admin.site.register(Species)
+admin.site.register(UserProfile)
+admin.site.register(Users)
