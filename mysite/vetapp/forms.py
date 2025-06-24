@@ -4,6 +4,7 @@ from .models import Users, Role
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.CharField(widget=forms.EmailInput)
     role = forms.ModelChoiceField(
         queryset=Role.objects.all(),
         empty_label="Выберите роль",
@@ -13,7 +14,7 @@ class UserRegistrationForm(forms.ModelForm):
 
     class Meta:
         model = Users
-        fields = ['login', 'password', 'role']
+        fields = ['login', 'email', 'password', 'role']
 
 class CustomLoginForm(forms.Form):
     login = forms.CharField(label='Логин')
