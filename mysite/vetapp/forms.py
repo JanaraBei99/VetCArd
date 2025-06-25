@@ -1,10 +1,12 @@
 from django import forms
 from django.contrib.auth.hashers import make_password
-from .models import Users, UserProfile
+from mysite.users.models import User, UserProfile
+
 
 class CustomLoginForm(forms.Form):
     login = forms.CharField(label='Логин')
     password = forms.CharField(widget=forms.PasswordInput, label='Пароль')
+
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label='Пароль')
@@ -15,7 +17,7 @@ class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField(label='Email')
 
     class Meta:
-        model = Users
+        model = User
         fields = ['login', 'role']
 
     def clean(self):
