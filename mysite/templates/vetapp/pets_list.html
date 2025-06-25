@@ -1,0 +1,8 @@
+<h1>Мои питомцы</h1>
+<ul>
+  {% for pet in pets %}
+    <li><a href="{% url 'vetapp:pet_detail' pet.id %}">{{ pet.name }} ({{ pet.species }})</a></li>
+  {% empty %}
+    <li>Питомцы не найдены</li>
+  {% endfor %}
+</ul>

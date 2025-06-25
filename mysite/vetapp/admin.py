@@ -13,10 +13,9 @@ from .models import (
     Shop,
     Shopproduct,
     Species,
-    UserProfile,
     Userassistant,
     Userknowledges,
-    Users,
+
 )
 
 admin.site.register(Assistant)
@@ -31,5 +30,3 @@ admin.site.register(Product)
 admin.site.register(Role)
 admin.site.register(Shop)
 admin.site.register(Species)
-admin.site.register(UserProfile)
-admin.site.register(Users)

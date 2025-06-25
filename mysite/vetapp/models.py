@@ -159,6 +159,7 @@ class Species(models.Model):
 
 
 class UserProfile(models.Model):
+    user = models.OneToOneField('Users', on_delete=models.CASCADE, null=True)
     profile_id = models.AutoField(primary_key=True)
     role = models.ForeignKey(Role, models.DO_NOTHING)
     email = models.CharField(max_length=50, blank=True, null=True)

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.hashers import check_password, make_password
 from .forms import UserRegistrationForm, CustomLoginForm
-from .models import Users, UserProfile
+from .models import Users
+from django.contrib.auth.hashers import check_password, make_password
 
 def index(request):
     return render(request, 'vetapp/index.html')
@@ -10,7 +10,7 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # в форме хешируем пароль и создаём профиль
+            form.save()  # форма сама создает пользователя и профиль, хеширует пароль
             return redirect('login')
     else:
         form = UserRegistrationForm()
@@ -27,7 +27,7 @@ def user_login(request):
             try:
                 user = Users.objects.get(login=login_input)
                 if check_password(password_input, user.password):
-                    request.session['user_id'] = user.user_id
+                    request.session['user_id'] = user.user_id  # user.user_id, если в модели primary key user_id
                     return redirect('index')
                 else:
                     error = 'Неверный пароль'
@@ -36,7 +36,3 @@ def user_login(request):
     else:
         form = CustomLoginForm()
     return render(request, 'vetapp/login.html', {'form': form, 'error': error})
-
-def user_logout(request):
-    request.session.flush()
-    return redirect('login')
