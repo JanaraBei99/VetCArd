@@ -161,7 +161,6 @@ class Species(models.Model):
 class UserProfile(models.Model):
     profile_id = models.AutoField(primary_key=True)
     role = models.ForeignKey(Role, models.DO_NOTHING)
-    fullname = models.CharField(max_length=50, blank=True, null=True)
     email = models.CharField(max_length=50, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     preferredlanguage = models.CharField(max_length=20, blank=True, null=True)
@@ -177,6 +176,9 @@ class UserProfile(models.Model):
     website = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     logo = models.CharField(max_length=255, blank=True, null=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)
 
     class Meta:
         managed = False
@@ -208,7 +210,6 @@ class Users(models.Model):
     login = models.CharField(max_length=100)
     password = models.CharField(max_length=255)
     role = models.ForeignKey(Role, models.DO_NOTHING, blank=True, null=True)
-    email = models.CharField(max_length=100)
 
     class Meta:
         managed = False

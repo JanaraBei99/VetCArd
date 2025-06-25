@@ -1,19 +1,35 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from rest_framework.authtoken.models import Token
+from django.contrib.auth.hashers import make_password
+from .models import Users, UserProfile, Role
 
-class RegisterSerializer(serializers.ModelSerializer):
+class RegisterSerializer(serializers.Serializer):
+    login = serializers.CharField(max_length=100)
     password = serializers.CharField(write_only=True)
-
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password')
+    role_id = serializers.IntegerField(required=False)
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    surname = serializers.CharField()
+    email = serializers.EmailField()
 
     def create(self, validated_data):
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password']
+        role_id = validated_data.get('role_id')
+        role = None
+        if role_id:
+            try:
+                role = Role.objects.get(pk=role_id)
+            except Role.DoesNotExist:
+                pass  # можно выбросить ошибку
+
+        user = Users.objects.create(
+            login=validated_data['login'],
+            password=make_password(validated_data['password']),
+            role=role
         )
-        Token.objects.create(user=user)
+        UserProfile.objects.create(
+            user=user,
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            surname=validated_data['surname'],
+            email=validated_data['email']
+        )
         return user

@@ -1,11 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import UserRegistrationForm
-from .models import Users  # твоя модель
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth import login
-from django.contrib.auth.hashers import check_password
-from .forms import CustomLoginForm
-from django.contrib.auth import logout
+from django.contrib.auth.hashers import check_password, make_password
+from .forms import UserRegistrationForm, CustomLoginForm
+from .models import Users, UserProfile
 
 def index(request):
     return render(request, 'vetapp/index.html')
@@ -14,9 +10,7 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.password = make_password(form.cleaned_data['password'])
-            user.save()
+            user = form.save()  # в форме хешируем пароль и создаём профиль
             return redirect('login')
     else:
         form = UserRegistrationForm()
@@ -33,8 +27,8 @@ def user_login(request):
             try:
                 user = Users.objects.get(login=login_input)
                 if check_password(password_input, user.password):
-                    request.session['user_id'] = user.id
-                    return redirect('index')  # redirect на главную страницу
+                    request.session['user_id'] = user.user_id
+                    return redirect('index')
                 else:
                     error = 'Неверный пароль'
             except Users.DoesNotExist:
@@ -42,3 +36,7 @@ def user_login(request):
     else:
         form = CustomLoginForm()
     return render(request, 'vetapp/login.html', {'form': form, 'error': error})
+
+def user_logout(request):
+    request.session.flush()
+    return redirect('login')

@@ -7,13 +7,14 @@ class Role(models.Model):
         return self.name
 
 class Users(models.Model):
-    login = models.CharField(max_length=100, unique=True)
-    password = models.CharField(max_length=200)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    user_id = models.AutoField(primary_key=True)
+    login = models.CharField(max_length=100)
+    password = models.CharField(max_length=255)
+    role = models.ForeignKey(Role, models.DO_NOTHING, blank=True, null=True)
 
-    def __str__(self):
-        return self.login
-
+    class Meta:
+        managed = True
+        db_table = 'users'
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -44,6 +45,34 @@ class AuthPermission(models.Model):
         db_table = 'auth_permission'
         unique_together = (('content_type', 'codename'),)
 
+class UserProfile(models.Model):
+    user = models.OneToOneField('Users', on_delete=models.CASCADE, null=True)
+    profile_id = models.AutoField(primary_key=True)
+    email = models.CharField(max_length=50, blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    preferredlanguage = models.CharField(max_length=20, blank=True, null=True)
+    clinic = models.CharField(max_length=50, blank=True, null=True)
+    position = models.CharField(max_length=50, blank=True, null=True)
+    specialization = models.CharField(max_length=50, blank=True, null=True)
+    experience = models.CharField(max_length=50, blank=True, null=True)
+    license_number = models.CharField(max_length=100, blank=True, null=True)
+    city = models.CharField(max_length=50, blank=True, null=True)
+    address = models.CharField(max_length=50, blank=True, null=True)
+    nameoforganization = models.CharField(max_length=100, blank=True, null=True)
+    type = models.CharField(max_length=50, blank=True, null=True)
+    website = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    logo = models.CharField(max_length=255, blank=True, null=True)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    surname = models.CharField(max_length=50)
+
+    class Meta:
+        managed = True
+        db_table = 'user_profile'
+
+    def __str__(self):
+        return f'{self.last_name} {self.first_name}'
 
 class AuthUser(models.Model):
     password = models.CharField(max_length=128)

@@ -1,13 +1,13 @@
+# forms.py
 from django import forms
-from .models import Users
+from .models import Users, UserProfile
 from django.contrib.auth.hashers import make_password
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
-    email = forms.CharField(widget=forms.EmailInput)
     class Meta:
         model = Users
-        fields = ['login', 'email', 'password', 'role']
+        fields = ['login', 'password', 'role']
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -16,6 +16,7 @@ class UserRegistrationForm(forms.ModelForm):
             user.save()
         return user
 
-class CustomLoginForm(forms.Form):
-    login = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['first_name', 'last_name', 'surname', 'email']

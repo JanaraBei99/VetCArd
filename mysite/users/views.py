@@ -1,8 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.hashers import check_password
+from .models import Users
 from .serializers import RegisterSerializer
 
 class RegisterView(APIView):
@@ -15,11 +16,17 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
     def post(self, request):
-        username = request.data.get('username')
+        login = request.data.get('login')
         password = request.data.get('password')
 
-        user = authenticate(username=username, password=password)
-        if user:
-            token, _ = Token.objects.get_or_create(user=user)
+        try:
+            user = Users.objects.get(login=login)
+        except Users.DoesNotExist:
+            return Response({"error": "Пользователь не найден"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        if check_password(password, user.password):
+            # Создаём/получаем токен
+            token, _ = Token.objects.get_or_create(user_id=user.id)
             return Response({"token": token.key})
-        return Response({"error": "Неверный логин или пароль"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        return Response({"error": "Неверный пароль"}, status=status.HTTP_401_UNAUTHORIZED)
