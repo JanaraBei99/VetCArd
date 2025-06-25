@@ -1,15 +1,12 @@
 from django.contrib import admin
-from .models import Users, Role, UserProfile
+from .models import User, UserProfile
 
-@admin.register(Users)
+
+@admin.register(User)
 class UsersAdmin(admin.ModelAdmin):
     list_display = ('user_id', 'login', 'role')
     search_fields = ('login',)
 
-@admin.register(Role)
-class RoleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-    search_fields = ('name',)
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):

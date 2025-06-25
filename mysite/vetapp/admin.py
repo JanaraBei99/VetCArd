@@ -2,31 +2,29 @@ from django.contrib import admin
 from .models import (
     Assistant,
     Breed,
-    Category,
     File,
-    Knowledges,
-    Medrecord,
+    Knowledge,
+    MedRecord,
     Pets,
-    Petsprofile,
+    PetProfile,
     Product,
-    Role,
     Shop,
-    Shopproduct,
+    ShopProduct,
     Species,
-    Userassistant,
-    Userknowledges,
-
+    UserAssistant,
+    UserKnowledge,
 )
 
 admin.site.register(Assistant)
 admin.site.register(Breed)
-admin.site.register(Category)
 admin.site.register(File)
-admin.site.register(Knowledges)
-admin.site.register(Medrecord)
+admin.site.register(Knowledge)
+admin.site.register(MedRecord)
 admin.site.register(Pets)
-admin.site.register(Petsprofile)
+admin.site.register(PetProfile)
 admin.site.register(Product)
-admin.site.register(Role)
 admin.site.register(Shop)
+admin.site.register(ShopProduct)
 admin.site.register(Species)
+admin.site.register(UserAssistant)
+admin.site.register(UserKnowledge)
